@@ -52,21 +52,25 @@ public class pagedown extends Thread{
     private loopqueue q;
     private LinkedBlockingQueue<Integer> list;
     private boolean flag;
-    public pagedown(loopqueue q,String url,LinkedBlockingQueue<Integer> list){
+    private int pageid;
+    public pagedown(loopqueue q,String url,int pageid){
     	 this.url=url;
     	 this.q=q;
     	 this.list=list;
+    	 this.pageid=pageid;
     }
     public void run(){
     	while(true){
         	 socket temp=q.pop();  //代理IP
         	 this.ip=temp.get_ip();
         	 this.port=temp.port();
-    		 crawl();
-    		 
+    		 crawl();		 
     	}	
     }
-    private void crawl(){
+    private void crawlbyapi() throws IOException{
+    	getJsonByHttpUrl(url, ip, port);
+    }
+    /*private void crawl(){
     	Document doc=null;;
 		
 			try {
@@ -90,7 +94,7 @@ public class pagedown extends Thread{
 			//doc = Jsoup.connect(url+user_id).get();
 		//Document doc = Jsoup.connect(url).get();
 	//	doc.select(".user-card-name").get(0).select(".top-badge").remove().html();
-	/*	img=doc.select("#avatar-card > div.avatar > a > div > img").attr("src");
+		img=doc.select("#avatar-card > div.avatar > a > div > img").attr("src");
 		// TODO 完成图片下载功能
 		URL   img_url   =   new   URL(img);         //下载图片
 		URLConnection   uc   =   img_url.openConnection(); 
@@ -168,10 +172,11 @@ public class pagedown extends Thread{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		
     }
-    public String getDocByJsoup2(String href,String ip,int port) throws IOException{
+    */
+    public String getJsonByHttpUrl(String href,String ip,int port) throws IOException{
 		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ip, port));
 		URL url = new URL(href);
 		HttpURLConnection urlcon = (HttpURLConnection)url.openConnection(proxy);  
