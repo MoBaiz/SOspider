@@ -67,6 +67,9 @@ public class pagedown extends Thread{
     		 crawl();		 
     	}	
     }
+    private void testgit(){
+
+	}
     private void crawlbyapi() throws IOException{
     	getJsonByHttpUrl(url, ip, port);
     }
